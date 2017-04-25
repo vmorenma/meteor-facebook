@@ -1,0 +1,58 @@
+<template name="story">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+            {{#if status}}
+                <h4> <a href="/profile/{{creatorUsername}}"><img src="{{creatorThumbnail}}" width="28px;" height="28px;"> {{creatorName}} </a></h4>
+            {{else}}
+
+                <h4>
+                    <a href="/profile/{{creatorUsername}}">
+                        <img src="{{creatorThumbnail}}" alt="" width="28px;" height="28px;">
+                        {{creatorName}}
+                    </a>
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                    <a href="/profile/{{createdForUsername}}">
+                        <img src="{{createdForThumbnail}}" alt="" width="28px;" height="28px;">
+                        {{createdForName}}
+                    </a>
+                </h4>
+            {{/if}}
+        </div>
+        <div class="panel-body">
+            <h4>
+                {{storyText}}</h4>
+            <div class="clearfix"></div>
+            <form id="comentForm">
+                <label>{{likeCount _id}}</label>
+
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default like">+1</button>
+                    </div>
+                    <input class="form-control" placeholder="Add a comment.." name="comentText" type="text">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Comment</button>
+                    </div>
+                </div>
+            </form>
+            <hr />
+            <h5>Comentarios</h5>
+            {{#each this.comments}}
+                <div style="padding:5px;margin: 10px; background-color:#f5f5f5">
+                    {{#if comentOwner this.creator}}
+                        <a style="float:right" type="text" class="deletecoment glyphicon glyphicon-remove"></a>
+                    {{/if}}
+                    <a href="/profile/{{friendUsername this.creator}}"><img src="{{friendPicture this.creator}}" height="28px" width="28px"></a>
+                    <a href="/profile/{{friendUsername this.creator}}">
+                        <strong>{{friendUsername this.creator}}</strong>
+                    </a>: {{this.text}}
+                    <br />
+                </div>
+
+
+            {{/each}}
+
+        </div>
+    </div>
+</template>

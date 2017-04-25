@@ -1,0 +1,37 @@
+// ----------------------------------------------------------------------------
+// @Date:
+// @author:
+// @description: This is where the user will register for the site
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Template Event Map
+// ----------------------------------------------------------------------------
+Template.register.events({
+    'submit #signupform':function(e){
+        e.preventDefault();
+        var email = $("input[name='email']").val();
+        var firstname = $("input[name='firstname']").val();
+        var lastname = $("input[name='lastname']").val();
+        var password = $("input[name='passwd']").val();
+        var username = firstname + lastname;
+        try {
+            if(!email.length) throw new Meteor.Error("need email", "You must have an email");
+            if(!firstname.length) throw new Meteor.Error("need name", "You must input your first name");
+            if(!lastname.length) throw new Meteor.Error("need lastname", "You must input your last name");
+            if(password.length < 6) throw new Meteor.Error("password length", "Your password must be at least 6 characters in length");
+            Accounts.createUser({username: username, email: email, password: password,
+                                    profile: {firstname: firstname, lastname: lastname, username: username,"picture" : {
+            "large" : "",
+            "medium" : "",
+            "thumbnail" : ""
+        },confirmedFriends:[],pendingFriends:[],location: {street:"",city:"",state:"",zip:""}}}, function(err, id){
+                if(!err) {
+                    Router.go("/")
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+})
